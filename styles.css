@@ -1,0 +1,73 @@
+/* Basic reset */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial; color:#2b2b2b; background:#fff}
+a{color:inherit}
+
+/* Header/nav */
+header{background:#fff; border-bottom:1px solid #f0e6dd}
+.navbar{max-width:1100px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:14px}
+.logo a{font-weight:700;color:#b26b3f;text-decoration:none;font-size:1.25rem}
+.nav-links{list-style:none;display:flex;gap:18px}
+.nav-links a{padding:6px 8px;border-radius:6px;text-decoration:none}
+.nav-links a:hover{background:#f8f0e3;color:#8b4513}
+
+/* Container */
+.container{max-width:1100px;margin:28px auto;padding:0 18px}
+
+/* Hero */
+.hero{height:46vh;min-height:280px;background-image:url('../images/hero.jpg');background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center}
+.hero-content{background:rgba(255,255,255,0.9);padding:28px;border-radius:10px;text-align:center;max-width:720px}
+.hero-content h1{font-size:1.8rem;margin-bottom:8px;color:#5a2f18}
+.hero-content p{margin-bottom:12px;color:#4a4038}
+
+/* Buttons */
+.btn{background:#b26b3f;color:#fff;padding:10px 16px;border:none;border-radius:8px;cursor:pointer;text-decoration:none;display:inline-block}
+.btn:hover{filter:brightness(0.95)}
+.btn.neutral{background:#f0f0f0;color:#333;border:1px solid #e2d7cf}
+
+/* Sections */
+h1,h2{color:#412a1a;margin-bottom:12px}
+section{margin:22px 0;padding:6px 0}
+
+/* Flavor cards / product grid */
+.flavor-cards, .product-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.card{border:1px solid #eee;border-radius:10px;overflow:hidden;background:#fff;box-shadow:0 3px 6px rgba(0,0,0,0.03)}
+.card img{width:100%;height:160px;object-fit:cover;display:block}
+.card-body{padding:12px}
+.card-body h3{margin-bottom:6px;font-size:1.05rem}
+.card-body p{color:#6a5a52;margin-bottom:8px}
+.card-body .price{font-weight:700;color:#8b4513;margin-bottom:8px}
+
+/* product item layout */
+.product-card .actions{display:flex;gap:10px;align-items:center}
+.qty-input{width:64px;padding:6px;border-radius:6px;border:1px solid #ddd}
+
+/* Cart */
+.cart-section{margin:20px 0;padding:12px;border:1px dashed #eee;border-radius:8px;background:#faf7f5}
+.cart-item{display:flex;gap:12px;align-items:center;padding:8px 0;border-bottom:1px solid #f3ebe3}
+.cart-item:last-child{border-bottom:none}
+.cart-item img{width:64px;height:64px;object-fit:cover;border-radius:6px}
+.cart-item .meta{flex:1}
+.cart-item .meta h4{font-size:0.98rem;margin-bottom:4px}
+.cart-item .meta small{color:#7a6a62}
+.cart-totals{margin-top:12px;font-size:1.05rem}
+
+/* form */
+.form-row{margin-bottom:12px}
+label{display:block;margin-bottom:6px;color:#5b4a43}
+input, select, textarea{width:100%;padding:8px;border-radius:8px;border:1px solid #ddd;font-size:0.95rem}
+textarea{resize:vertical}
+
+/* photo grid */
+.photo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+.photo-grid img{width:100%;height:150px;object-fit:cover;border-radius:8px}
+
+/* reviews */
+.reviews{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.review-card{padding:12px;border-radius:8px;background:#fff;border:1px solid #f0e7df}
+
+/* responsive */
+@media (max-width:720px){
+  .hero{height:40vh}
+  .nav-links{display:none}
+}
