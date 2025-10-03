@@ -1,1 +1,119 @@
-<!DOCTYPE html><html lang="en"><head>  <meta charset="UTF-8" />  <meta name="viewport" content="width=device-width, initial-scale=1.0" />  <title>Three Golden Crumbs — Home</title>  <link rel="stylesheet" href="css/styles.css" /></head><body>  <header>    <nav class="navbar">      <div class="logo">Three Golden Crumbs</div>      <ul class="nav-links">        <li><a href="index.html">Home</a></li>        <li><a href="order.html">Order</a></li>        <li><a href="gallery.html">Gallery / Reviews</a></li>        <li><a href="specials.html">Specials</a></li>      </ul>    </nav>  </header>  <section class="hero">    <div class="hero-content">      <h1>Welcome to Three Golden Crumbs</h1>      <p>Fresh, handcrafted cookies baked with love.</p>      <a class="btn" href="order.html">Order Now</a>    </div>  </section>  <section class="featured-flavors">    <h2>Featured Flavors</h2>    <div class="flavor-cards" id="featuredFlavors"></div>  </section>  <section class="testimonials">    <h2>What Our Customers Say</h2>    <div class="reviews" id="reviewSection"></div>  </section>  <footer>    <p>&copy; 2025 Three Golden Crumbs. All rights reserved.</p>  </footer>  <script src="js/main.js"></script></body></html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three Golden Crumbs</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <style>
+    body { font-family: 'Poppins', sans-serif; }
+    .hero {
+      background: url('https://source.unsplash.com/1600x600/?cookies,bakery') no-repeat center center/cover;
+      height: 90vh;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      text-shadow: 2px 2px 8px rgba(0,0,0,0.7);
+    }
+    .footer {
+      background: #f8f9fa;
+      padding: 20px 0;
+      margin-top: 50px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light sticky-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">Three Golden Crumbs</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="order.html">Order</a></li>
+          <li class="nav-item"><a class="nav-link" href="gallery.html">Gallery</a></li>
+          <li class="nav-item"><a class="nav-link" href="specials.html">Specials</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1>Freshly Baked Happiness</h1>
+      <p class="lead">Delicious cookies made with love, straight from our kitchen.</p>
+      <a href="order.html" class="btn btn-warning btn-lg mt-3">Order Now</a>
+    </div>
+  </section>
+
+  <!-- Featured Flavors -->
+  <section class="py-5">
+    <div class="container text-center">
+      <h2 class="mb-4">Our Favorite Cookies</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <img src="https://source.unsplash.com/400x300/?chocolate-chip-cookie" class="card-img-top" alt="Chocolate Chip">
+            <div class="card-body">
+              <h5 class="card-title">Classic Chocolate Chip</h5>
+              <p class="card-text">Golden brown, chewy, and loaded with chocolate chips.</p>
+              <a href="order.html" class="btn btn-primary">Add to Order</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <img src="https://source.unsplash.com/400x300/?cookie,dessert" class="card-img-top" alt="Red Velvet">
+            <div class="card-body">
+              <h5 class="card-title">Red Velvet</h5>
+              <p class="card-text">Rich cocoa flavor with a hint of cream cheese frosting.</p>
+              <a href="order.html" class="btn btn-primary">Add to Order</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card shadow-sm">
+            <img src="https://source.unsplash.com/400x300/?cookies,baking" class="card-img-top" alt="Birthday Cake">
+            <div class="card-body">
+              <h5 class="card-title">Birthday Cake</h5>
+              <p class="card-text">Sprinkle-filled, festive, and perfect for celebrating.</p>
+              <a href="order.html" class="btn btn-primary">Add to Order</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="py-5 bg-light">
+    <div class="container text-center">
+      <h2>Contact Us</h2>
+      <p>Email: hello@threegoldencrumbs.com</p>
+      <p>Follow us on Instagram & Facebook!</p>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2025 Three Golden Crumbs. All rights reserved.</p>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
