@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order | Three Golden Crumbs</title>
+  <meta name="description" content="Place your cookie order with Three Golden Crumbs — freshly baked to order." />
+  <meta property="og:title" content="Order | Three Golden Crumbs" />
+  <meta property="og:description" content="Freshly baked cookies, ready to order — one golden crumb at a time." />
+  <link rel="icon" href="assets/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="styles.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&family=Raleway&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="logo">
+        <img src="assets/logo.png" alt="Three Golden Crumbs Logo">
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="menu.html">Menu</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="order.html" class="active">Order</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="page-header">
+    <h1>Place an Order</h1>
+    <p>Fill out the form below and we’ll get back to you soon to confirm your order.</p>
+  </section>
+
+  <section class="order-form">
+    <form id="orderForm" onsubmit="return handleOrderSubmit(event)">
+      <label for="name">Full Name</label>
+      <input type="text" id="name" name="name" placeholder="Your full name" required>
+
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" placeholder="Your email address" required>
+
+      <label for="flavor">Select Flavor</label>
+      <select id="flavor" name="flavor" required>
+        <option value="">Choose a flavor</option>
+        <option>Chocolate Chip</option>
+        <option>M&M</option>
+        <option>Red Velvet</option>
+        <option>White Macadamia Nut</option>
+        <option>S’mores</option>
+        <option>Reese’s</option>
+        <option>Chocolate Chip Walnut</option>
+        <option>Birthday Cake</option>
+        <option>Kitchen Sink</option>
+        <option>Dubai Dream (Limited Edition)</option>
+      </select>
+
+      <label for="quantity">Quantity</label>
+      <input type="number" id="quantity" name="quantity" min="1" placeholder="Dozen count or pieces" required>
+
+      <label for="pickup">Pickup or Delivery</label>
+      <select id="pickup" name="pickup" required>
+        <option value="">Select an option</option>
+        <option>Pickup</option>
+        <option>Delivery</option>
+      </select>
+
+      <label for="notes">Special Requests or Notes</label>
+      <textarea id="notes" name="notes" placeholder="Allergies, specific instructions, etc."></textarea>
+
+      <button type="submit" class="btn">Submit Order</button>
+    </form>
+
+    <div id="orderMessage" class="hidden">
+      <p>Thank you! Your order has been submitted successfully.</p>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2025 Three Golden Crumbs | Made with love in every batch</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
