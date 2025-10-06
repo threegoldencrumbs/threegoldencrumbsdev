@@ -1,326 +1,227 @@
-/* main.js
-   Single JS file shared by all pages. Replace images & data below.
-*/
-
-/* -------------------------
-   SAMPLE DATA - replace with your real flavors, photos, reviews
-   prices are numbers (USD)
-------------------------- */
-const FLAVORS = [
-  { id: 'chocolate-chip', name: 'Chocolate Chip', price: 18.00, img: 'images/choco.jpg', short: 'Classic chocolate chip' },
-  { id: 'double-choco', name: 'Double Chocolate', price: 20.00, img: 'images/double.jpg', short: 'Rich double cocoa' },
-  { id: 'white-mac', name: 'White Macadamia', price: 19.00, img: 'images/mac.jpg', short: 'White chocolate & macadamia' },
-  { id: 'sugar', name: 'Sugar Cookie', price: 16.00, img: 'images/sugar.jpg', short: 'Soft sugar cookie' },
-  // add more...
-];
-
-const PHOTOS = [
-  'images/photo1.jpg','images/photo2.jpg','images/photo3.jpg','images/photo4.jpg'
-];
-
-const REVIEWS = [
-  { author: 'Dana', text: 'Absolutely perfect — crisp edges, gooey center.' },
-  { author: 'Asha', text: 'My go-to cookies for every party.' },
-  { author: 'Miguel', text: 'Fantastic flavor and fast pickup.' },
-];
-
-/* -------------------------
-   CART - stored in localStorage under key 'tgc_cart'
-------------------------- */
-const STORAGE_KEY = 'tgc_cart';
-
-function loadCart(){
-  try{
-    const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  }catch(e){
-    return [];
-  }
-}
-function saveCart(cart){
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
+/* ========== BASE STYLES ========== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-/* add item to cart (qty is integer number of dozens default 1) */
-function addToCart(itemId, qty=1){
-  const cart = loadCart();
-  const existing = cart.find(i=>i.id===itemId);
-  if(existing){
-    existing.qty += qty;
-  } else {
-    const flavor = FLAVORS.find(f=>f.id===itemId);
-    if(!flavor) return;
-    cart.push({ id:itemId, name:flavor.name, price:flavor.price, img:flavor.img, qty: qty });
-  }
-  saveCart(cart);
-  renderCartUI();
+body {
+  font-family: 'Raleway', sans-serif;
+  color: #4b3b2a;
+  background-color: #fdf8f3;
+  line-height: 1.6;
 }
 
-/* update qty or remove if qty <=0 */
-function updateCartQty(itemId, qty){
-  let cart = loadCart();
-  cart = cart.map(i => i.id===itemId ? {...i, qty: qty} : i).filter(i=>i.qty>0);
-  saveCart(cart);
-  renderCartUI();
+/* ========== HEADER & NAV ========== */
+header {
+  background-color: #fffaf5;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 0;
+  z-index: 100;
 }
 
-function clearCart(){
-  localStorage.removeItem(STORAGE_KEY);
-  renderCartUI();
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
 }
 
-function cartTotal(){
-  const cart = loadCart();
-  const total = cart.reduce((s,i)=> s + (i.price * i.qty), 0);
-  return Math.round(total*100)/100;
+.logo img {
+  height: 60px;
 }
 
-/* -------------------------
-   RENDERING FUNCTIONS
-------------------------- */
-function renderProducts(){
-  const grid = document.getElementById('productGrid');
-  if(!grid) return;
-  grid.innerHTML = '';
-  FLAVORS.forEach(f=>{
-    const card = document.createElement('div');
-    card.className = 'card product-card';
-    card.innerHTML = `
-      <img src="${f.img}" alt="${f.name}">
-      <div class="card-body">
-        <h3>${f.name}</h3>
-        <p class="price">$${f.price.toFixed(2)} / dozen</p>
-        <p>${f.short}</p>
-        <div class="actions" style="margin-top:8px">
-          <input class="qty-input" type="number" min="1" value="1" id="qty-${f.id}">
-          <button class="btn" data-add="${f.id}">Add to cart</button>
-        </div>
-      </div>
-    `;
-    grid.appendChild(card);
-  });
-
-  // Attach add listeners
-  document.querySelectorAll('[data-add]').forEach(btn=>{
-    btn.addEventListener('click', (e)=>{
-      const id = btn.getAttribute('data-add');
-      const qtyInput = document.getElementById('qty-'+id);
-      const qty = Math.max(1, parseInt(qtyInput.value || '1', 10));
-      addToCart(id, qty);
-    });
-  });
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
 }
 
-function renderFeaturedFlavors(){
-  const container = document.getElementById('featuredFlavors');
-  if(!container) return;
-  container.innerHTML = '';
-  // show first 3 flavors
-  FLAVORS.slice(0,3).forEach(f=>{
-    const div = document.createElement('div');
-    div.className = 'card';
-    div.innerHTML = `
-      <img src="${f.img}" alt="${f.name}">
-      <div class="card-body">
-        <h3>${f.name}</h3>
-        <p class="price">$${f.price.toFixed(2)} / dozen</p>
-      </div>
-    `;
-    container.appendChild(div);
-  });
+.nav-links a {
+  text-decoration: none;
+  color: #4b3b2a;
+  font-weight: 600;
+  transition: color 0.3s;
 }
 
-function renderHomeReviews(){
-  const homeReviews = document.getElementById('homeReviews');
-  if(!homeReviews) return;
-  homeReviews.innerHTML = '';
-  REVIEWS.slice(0,2).forEach(r=>{
-    const rc = document.createElement('div');
-    rc.className = 'review-card';
-    rc.innerHTML = `<p>"${r.text}"</p><p><strong>— ${r.author}</strong></p>`;
-    homeReviews.appendChild(rc);
-  });
+.nav-links a:hover,
+.nav-links a.active {
+  color: #b5915c;
 }
 
-function renderGallery(){
-  const photoGrid = document.getElementById('photoGrid');
-  if(photoGrid){
-    photoGrid.innerHTML = '';
-    PHOTOS.forEach(p=>{
-      const img = document.createElement('img');
-      img.src = p;
-      img.loading = 'lazy';
-      photoGrid.appendChild(img);
-    });
-  }
-  const allReviews = document.getElementById('allReviews');
-  if(allReviews){
-    allReviews.innerHTML = '';
-    REVIEWS.forEach(r=>{
-      const rc = document.createElement('div');
-      rc.className = 'review-card';
-      rc.innerHTML = `<p>"${r.text}"</p><p><strong>— ${r.author}</strong></p>`;
-      allReviews.appendChild(rc);
-    });
-  }
+/* ========== HERO SECTION ========== */
+.hero {
+  background: url('assets/hero-bg.jpg') center/cover no-repeat;
+  text-align: center;
+  padding: 7rem 2rem;
+  color: #fff;
+  background-color: #c9a36b;
 }
 
-function renderSpecials(){
-  const s = document.getElementById('specialsList');
-  if(!s) return;
-  s.innerHTML = '';
-  // Example: pick two specials from FLAVORS or separate specials array (customize)
-  const specials = FLAVORS.slice(0,2); // change as needed
-  specials.forEach(f=>{
-    const div = document.createElement('div');
-    div.className = 'card';
-    div.innerHTML = `
-      <img src="${f.img}" alt="${f.name}">
-      <div class="card-body">
-        <h3>${f.name}</h3>
-        <p class="price">$${f.price.toFixed(2)} / dozen</p>
-        <p>${f.short}</p>
-      </div>
-    `;
-    s.appendChild(div);
-  });
+.hero h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
 }
 
-/* Renders cart UI */
-function renderCartUI(){
-  const container = document.getElementById('cartItems');
-  if(!container) return;
-  const cart = loadCart();
-  container.innerHTML = '';
-  if(cart.length === 0){
-    container.innerHTML = '<p>Your cart is empty.</p>';
-  } else {
-    cart.forEach(item=>{
-      const div = document.createElement('div');
-      div.className = 'cart-item';
-      div.innerHTML = `
-        <img src="${item.img}" alt="${item.name}">
-        <div class="meta">
-          <h4>${item.name}</h4>
-          <small>$${item.price.toFixed(2)} / dozen</small>
-        </div>
-        <div class="qty">
-          <input type="number" min="1" value="${item.qty}" data-update="${item.id}" class="qty-input">
-        </div>
-        <div class="item-sub">$${(item.qty * item.price).toFixed(2)}</div>
-        <div><button class="btn neutral" data-remove="${item.id}">Remove</button></div>
-      `;
-      container.appendChild(div);
-    });
-
-    // attach update listeners
-    document.querySelectorAll('[data-update]').forEach(inp=>{
-      inp.addEventListener('change', e=>{
-        const id = inp.getAttribute('data-update');
-        const qty = Math.max(1, parseInt(inp.value || '1', 10));
-        updateCartQty(id, qty);
-      });
-    });
-    document.querySelectorAll('[data-remove]').forEach(btn=>{
-      btn.addEventListener('click', ()=>{
-        const id = btn.getAttribute('data-remove');
-        updateCartQty(id, 0);
-      });
-    });
-  }
-
-  document.getElementById('cartTotal').textContent = '$' + cartTotal().toFixed(2);
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
 }
 
-/* -------------------------
-   CHECKOUT: posts order to endpoint or falls back to local confirm
-   Set APPS_SCRIPT_ENDPOINT in README to enable server-side storage
-------------------------- */
-const APPS_SCRIPT_ENDPOINT = ''; // <-- OPTIONAL: set your Google Apps Script web app URL here
-
-function handleCheckoutForm(){
-  const form = document.getElementById('checkoutForm');
-  if(!form) return;
-
-  const methodSelect = document.getElementById('method');
-  const addressRow = document.getElementById('addressRow');
-
-  methodSelect && methodSelect.addEventListener('change', (e)=>{
-    if(e.target.value === 'shipping') addressRow.classList.remove('hidden');
-    else addressRow.classList.add('hidden');
-  });
-
-  form.addEventListener('submit', async (ev)=>{
-    ev.preventDefault();
-    const cart = loadCart();
-    if(cart.length === 0){
-      showStatus('Your cart is empty', true);
-      return;
-    }
-
-    const formData = {
-      name: form.name.value.trim(),
-      email: form.email.value.trim(),
-      method: form.method.value,
-      address: form.address ? form.address.value.trim() : '',
-      notes: form.notes.value.trim(),
-      items: cart,
-      total: cartTotal(),
-      createdAt: new Date().toISOString()
-    };
-
-    showStatus('Submitting order...', false);
-
-    // If APPS_SCRIPT_ENDPOINT configured, POST it there
-    if(APPS_SCRIPT_ENDPOINT){
-      try{
-        const res = await fetch(APPS_SCRIPT_ENDPOINT, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify(formData)
-        });
-        if(!res.ok) throw new Error('Server error');
-        const json = await res.json();
-        showStatus('Order submitted! We will contact you soon. (Server ID: ' + (json.id || 'n/a') + ')', false);
-        clearCart();
-        form.reset();
-      }catch(err){
-        console.error(err);
-        showStatus('There was an error submitting order to the server. Order saved locally. Please contact us if needed.', true);
-        // fallback: save locally (you can inspect in localStorage)
-        localStorage.setItem('tgc_last_order', JSON.stringify(formData));
-        clearCart();
-        form.reset();
-      }
-    } else {
-      // No endpoint: save order locally and show a friendly message
-      localStorage.setItem('tgc_last_order', JSON.stringify(formData));
-      showStatus('Order saved locally (no external endpoint configured). We will contact you to confirm pickup/shipping.', false);
-      clearCart();
-      form.reset();
-    }
-  });
+.btn {
+  background-color: #b5915c;
+  color: #fff;
+  padding: 0.8rem 1.5rem;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: 600;
+  transition: all 0.3s;
 }
 
-function showStatus(msg, isError){
-  const el = document.getElementById('orderStatus');
-  if(!el) return;
-  el.textContent = msg;
-  el.style.color = isError ? '#8b1b1b' : '#225522';
+.btn:hover {
+  background-color: #8c6a3f;
 }
 
-/* -------------------------
-   INIT — runs on DOMContentLoaded
-------------------------- */
-document.addEventListener('DOMContentLoaded', ()=>{
-  renderProducts();
-  renderCartUI();
-  renderFeaturedFlavors();
-  renderHomeReviews();
-  renderGallery();
-  renderSpecials();
-  handleCheckoutForm();
+/* ========== LIMITED FLAVOR ========== */
+.limited-flavor {
+  text-align: center;
+  background-color: #fffaf5;
+  padding: 3rem 2rem;
+}
 
-  const clearBtn = document.getElementById('clearCart');
-  if(clearBtn) clearBtn.addEventListener('click', ()=>{ if(confirm('Clear cart?')) clearCart(); });
-});
+.limited-flavor h2 {
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 1.5rem;
+  color: #a17438;
+}
+
+.flavor-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 600px;
+  margin: auto;
+}
+
+.flavor-card img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 2px solid #b5915c;
+  color: #b5915c;
+  padding: 0.6rem 1.2rem;
+  border-radius: 25px;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+  background-color: #b5915c;
+  color: #fff;
+}
+
+/* ========== MENU PAGE ========== */
+.page-header {
+  text-align: center;
+  padding: 3rem 2rem 2rem;
+}
+
+.page-header h1 {
+  font-family: 'Playfair Display', serif;
+  color: #4b3b2a;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.menu-item {
+  text-align: center;
+  background-color: #fffaf5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+  padding: 1rem;
+}
+
+.menu-item img {
+  width: 100%;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+/* ========== GALLERY ========== */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  padding: 2rem;
+}
+
+.gallery-item img {
+  width: 100%;
+  border-radius: 10px;
+  transition: transform 0.3s ease;
+}
+
+.gallery-item img:hover {
+  transform: scale(1.05);
+}
+
+/* ========== FORMS ========== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+input, select, textarea {
+  padding: 0.8rem;
+  border: 1px solid #d8c7a9;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.order-form, .contact-form {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fffaf5;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+/* ========== FOOTER ========== */
+footer {
+  background-color: #fff3e6;
+  text-align: center;
+  padding: 1.5rem;
+  font-size: 0.9rem;
+  color: #5c4a35;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .hero h1 {
+    font-size: 2rem;
+  }
+}
